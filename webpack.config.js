@@ -1,15 +1,13 @@
 const path = require("path");
 const HTMLIWebpackPlugin = require("html-webpack-plugin");
-const BundleAnalyzerPlugin =
-  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 module.exports = {
   mode: "development",
   entry: {
-    bundle: path.resolve(__dirname, "src/index.js"),
+    bundle: path.resolve(__dirname, "src/index.tsx"),
   },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "[name][contenthash].js",
+    filename: "bundle-[contenthash].js",
     clean: true,
     assetModuleFilename: "[name][ext]",
   },
@@ -45,15 +43,21 @@ module.exports = {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: "asset/resource",
       },
+      {
+        test: /\.(ts|tsx)$/,
+        exclude: /node_modules/,
+        use: "ts-loader",
+        resolve: {
+          extensions: [".ts", ".tsx", ".js", ".json"],
+        },
+      },
     ],
   },
   plugins: [
     new HTMLIWebpackPlugin({
-      title: "TO DO LIST",
+      title: "typescript react",
       filename: "index.html",
       template: "src/index.html",
     }),
-    //下面那行可以看到整個專案結構被用網頁打開
-    // new BundleAnalyzerPlugin(),
   ],
 };
